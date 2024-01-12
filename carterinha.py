@@ -46,20 +46,23 @@ lista_piloto.close()
 modelo_carterinha = openpyxl.load_workbook(modelo_carterinha_path)
 sheet_carterinha = modelo_carterinha.active
 
+# Inicializar variáveis de posição
+linha_inicial_c8 = 8
+linha_inicial_j8 = 8
+
 # Iterar sobre os dados copiados
 for i, nome in enumerate(nomes):
-    # Encontrar a célula correspondente na planilha Modelo Carteirinha
-    # Suponha que você tenha os índices da linha e coluna da célula mesclada
-    linha_mesclada = 8  # ajuste conforme necessário
-    coluna_mesclada = 3  # ajuste conforme necessário
-    
-    # Calcular a linha principal da célula mesclada
-    linha_principal = linha_mesclada + i * 14
-    
-    # Atribuir valor à célula principal
-    sheet_carterinha.cell(row=linha_principal, column=coluna_mesclada, value=nome)
+    # Determinar qual coluna e linha utilizar (C8 ou J8)
+    if i == 0:
+        coluna, linha = 3, linha_inicial_c8
+    elif i == 261:
+        coluna, linha = 3, 274
+    else:
+        coluna, linha = 10, linha_inicial_j8
+
+    # Atribuir valor à célula correspondente na planilha Modelo Carteirinha
+    sheet_carterinha.cell(row=linha + i * 14, column=coluna, value=nome)
 
 # Salvar e fechar planilha Modelo Carteirinha
-modelo_carterinha.save('C:/Users/Benedito/Documents/GitHub/Carteirinhas/CarterinhasPreenchidas.xlsx')
+modelo_carterinha.save(os.path.join(pasta_automacoes, 'CarterinhasPreenchidas.xlsx'))
 modelo_carterinha.close()
-dados_workbook.close()
