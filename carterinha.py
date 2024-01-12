@@ -1,60 +1,65 @@
 import openpyxl
-import pyautogui
-import time
+import os
 
-# Diretório padrão
-diretorio = 'C:\\Users\\Benedito\\Documents\\AUTOMAÇÕES\\'
+# Caminhos para as planilhas
+pasta_automacoes = 'C:/Users/Benedito/Documents/GitHub/Carteirinhas'
+lista_piloto_path = os.path.join(pasta_automacoes, 'ListaPilotoAluno.xlsx')
+modelo_carterinha_path = os.path.join(pasta_automacoes, 'ModeloCarteirinha.xlsx')
 
-# Passo 1: Abrir a planilha Lista Piloto
-lista_piloto_path = diretorio + 'ListaPilotoAluno.xlsx'
+# Verificar a existência do arquivo
+if not os.path.exists(lista_piloto_path):
+    raise FileNotFoundError("Certifique-se de que o arquivo ListaPilotoAluno.xlsx existe.")
+
+# Abrir a planilha Lista Piloto
 lista_piloto = openpyxl.load_workbook(lista_piloto_path)
 sheet_piloto = lista_piloto.active
 
-# Passo 2-6: Consultar e copiar dados da Lista Piloto
-turma = sheet_piloto['F8'].value
-periodo = sheet_piloto['D8'].value
-professora = sheet_piloto['E10'].value
-
-# Passo 3: Copiar todos os nomes da célula B12 até B39
+# Obter os nomes da lista
 nomes = [cell.value for row in sheet_piloto.iter_rows(min_row=12, max_row=39, min_col=2, max_col=2) for cell in row]
 
+# Obter os dados da turma, período e nome da professora
+turma = sheet_piloto['F8'].value
+periodo = sheet_piloto['D8'].value
+nome_professora = sheet_piloto['E10'].value
 
+# Criar uma nova planilha chamada DADOS
+dados_workbook = openpyxl.Workbook()
+dados_sheet = dados_workbook.active
 
-# Passo 7: Fechar a planilha Lista Piloto
+# Preencher a nova planilha com as informações
+dados_sheet['A1'] = 'Nomes'
+dados_sheet.append(nomes)
+dados_sheet['A8'] = 'Turma'
+dados_sheet['B8'] = turma
+dados_sheet['A9'] = 'Período'
+dados_sheet['B9'] = periodo
+dados_sheet['A10'] = 'Nome da Professora'
+dados_sheet['B10'] = nome_professora
+
+# Salvar a nova planilha
+dados_workbook.save(os.path.join(pasta_automacoes, 'Dados.xlsx'))
+
+# Fechar planilha Lista piloto
 lista_piloto.close()
 
-# Aguardar um momento antes de continuar
-time.sleep(1)
-
-# Passo 8: Abrir a planilha Modelo da Carterinha
-modelo_carterinha_path = diretorio + 'ModeloCarteirinha.xlsx'
+# Abrir planilha Modelo Carteirinha
 modelo_carterinha = openpyxl.load_workbook(modelo_carterinha_path)
 sheet_carterinha = modelo_carterinha.active
 
-# Passo 9-12: Colar dados nas Carterinhas em intervalos de 14 células verticais
-celula_nome = 'C8'
-celula_turma = 'C9'
-celula_periodo = 'C10'
-celula_professora = 'E10'
+# Iterar sobre os dados copiados
+for i, nome in enumerate(nomes):
+    # Encontrar a célula correspondente na planilha Modelo Carteirinha
+    # Suponha que você tenha os índices da linha e coluna da célula mesclada
+    linha_mesclada = 8  # ajuste conforme necessário
+    coluna_mesclada = 3  # ajuste conforme necessário
+    
+    # Calcular a linha principal da célula mesclada
+    linha_principal = linha_mesclada + i * 14
+    
+    # Atribuir valor à célula principal
+    sheet_carterinha.cell(row=linha_principal, column=coluna_mesclada, value=nome)
 
-for nome in nomes:
-    sheet_carterinha[celula_nome].value = nome
-    sheet_carterinha[celula_turma].value = turma
-    sheet_carterinha[celula_periodo].value = periodo
-    sheet_carterinha[celula_professora].value = professora
-
-    # Atualizar as células para a próxima iteração
-    celula_nome = celula_nome.replace('C', 'C').replace('8', str(int(celula_nome[1]) + 14))
-    celula_turma = celula_turma.replace('C', 'C').replace('9', str(int(celula_turma[1]) + 14))
-    celula_periodo = celula_periodo.replace('C', 'C').replace('10', str(int(celula_periodo[1]) + 14))
-    celula_professora = celula_professora.replace('E', 'E').replace('10', str(int(celula_professora[1]) + 14))
-
-
-# Passo 13: Salvar documento
-modelo_carterinha.save(diretorio + 'carterinhas_preenchidas.xlsx')
-
-# Aguardar um momento antes de continuar
-time.sleep(1)
-
-# Passo 14: Fechar a planilha Modelo da Carterinha
+# Salvar e fechar planilha Modelo Carteirinha
+modelo_carterinha.save('C:/Users/Benedito/Documents/GitHub/Carteirinhas/CarterinhasPreenchidas.xlsx')
 modelo_carterinha.close()
+dados_workbook.close()
