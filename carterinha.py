@@ -50,25 +50,38 @@ if not os.path.exists(modelo_carterinha_path):
 modelo_carterinha = openpyxl.load_workbook(modelo_carterinha_path)
 sheet_carterinha = modelo_carterinha.active
 
+# # Inicializar variáveis de posição
+# linha_inicial_c12 = 12
+# linha_inicial_j12 = 12
+
+# # Iterar sobre os dados copiados em ciclos de 20 nomes
+# for i in range(0, len(nomes), 20):
+#     # Determinar qual coluna utilizar (C8 ou J8)
+#     coluna = 3 if i // 20 % 2 == 0 else 10
+#     linha = linha_inicial_c12 if coluna == 3 else linha_inicial_j12
+
+#     # Atribuir valor à célula correspondente na planilha Modelo Carteirinha
+#     for j, nome in enumerate(nomes[i:i + 20]):
+#         sheet_carterinha.cell(row=linha + j * 14, column=coluna, value=nome)
+
+#     # Verificar se atingiu a célula C278 ou J278
+#     if i + 20 < len(nomes):
+#         # Se houver mais nomes, copiar os próximos 20
+#         dados_sheet['A1'] = 'Nomes'
+#         dados_sheet.append(nomes[i + 20:i + 40])
 # Inicializar variáveis de posição
 linha_inicial_c12 = 12
-linha_inicial_j12 = 12
 
-# Iterar sobre os dados copiados em ciclos de 20 nomes
-for i in range(0, len(nomes), 20):
-    # Determinar qual coluna utilizar (C8 ou J8)
-    coluna = 3 if i // 20 % 2 == 0 else 10
-    linha = linha_inicial_c12 if coluna == 3 else linha_inicial_j12
+# Iterar sobre os dados copiados
+for i in range(0, len(nomes), 4):
+    # Atribuir valores às células correspondentes na planilha Modelo Carteirinha
+    sheet_carterinha.cell(row=linha_inicial_c12, column=3, value=nomes[i])
+    sheet_carterinha.cell(row=linha_inicial_c12, column=10, value=nomes[i + 1])
+    sheet_carterinha.cell(row=linha_inicial_c12 + 14, column=3, value=nomes[i + 2])
+    sheet_carterinha.cell(row=linha_inicial_c12 + 14, column=10, value=nomes[i + 3])
 
-    # Atribuir valor à célula correspondente na planilha Modelo Carteirinha
-    for j, nome in enumerate(nomes[i:i + 20]):
-        sheet_carterinha.cell(row=linha + j * 14, column=coluna, value=nome)
-
-    # Verificar se atingiu a célula C274 ou J274
-    if i + 20 < len(nomes):
-        # Se houver mais nomes, copiar os próximos 20
-        dados_sheet['A1'] = 'Nomes'
-        dados_sheet.append(nomes[i + 20:i + 40])
+    # Atualizar posição para próxima colagem
+    linha_inicial_c12 += 28
      
 # Salvar e fechar planilha Modelo Carteirinha
 nome_turma = turma.replace(" ", " ")  # Substituir espaços por underscores, se necessário
