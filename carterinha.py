@@ -1,3 +1,13 @@
+import ctypes
+
+# Substitua 'caminho_para_seu_ícone.ico' pelo caminho real do seu ícone
+caminho_icone = 'C:\\Users\\Benedito\\Documents\\GitHub\\Carteirinhas\\CARTEIRA.ico'
+
+# Define o ícone para o arquivo .exe
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
+ctypes.windll.kernel32.SetConsoleIcon(ctypes.windll.shell32.ExtractIconW(0, caminho_icone, 0))
+
+
 import openpyxl
 import os
 from tkinter import messagebox, Tk
