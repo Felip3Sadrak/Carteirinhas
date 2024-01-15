@@ -51,14 +51,14 @@ modelo_carterinha = openpyxl.load_workbook(modelo_carterinha_path)
 sheet_carterinha = modelo_carterinha.active
 
 # Inicializar variáveis de posição
-linha_inicial_c8 = 8
-linha_inicial_j8 = 8
+linha_inicial_c12 = 12
+linha_inicial_j12 = 12
 
 # Iterar sobre os dados copiados em ciclos de 20 nomes
 for i in range(0, len(nomes), 20):
     # Determinar qual coluna utilizar (C8 ou J8)
     coluna = 3 if i // 20 % 2 == 0 else 10
-    linha = linha_inicial_c8 if coluna == 3 else linha_inicial_j8
+    linha = linha_inicial_c12 if coluna == 3 else linha_inicial_j12
 
     # Atribuir valor à célula correspondente na planilha Modelo Carteirinha
     for j, nome in enumerate(nomes[i:i + 20]):
@@ -71,5 +71,10 @@ for i in range(0, len(nomes), 20):
         dados_sheet.append(nomes[i + 20:i + 40])
      
 # Salvar e fechar planilha Modelo Carteirinha
-modelo_carterinha.save(os.path.join(pasta_automacoes, 'CarterinhasPreenchidas.xlsx'))
+nome_turma = turma.replace(" ", " ")  # Substituir espaços por underscores, se necessário
+nome_arquivo_carteirinhas = f'Carteirinhas-{nome_turma}.xlsx'
+modelo_carterinha.save(os.path.join(pasta_automacoes, nome_arquivo_carteirinhas))
 modelo_carterinha.close()
+
+# Excluir a planilha Dados
+os.remove(os.path.join(pasta_automacoes, 'Dados.xlsx'))
