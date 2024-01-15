@@ -1,5 +1,6 @@
 import openpyxl
 import os
+from tkinter import messagebox, Tk
 
 # Caminhos para as planilhas
 pasta_automacoes = 'C:/Users/Benedito/Documents/GitHub/Carteirinhas'
@@ -13,6 +14,12 @@ if not os.path.exists(lista_piloto_path):
 # Abrir a planilha Lista Piloto
 lista_piloto = openpyxl.load_workbook(lista_piloto_path)
 sheet_piloto = lista_piloto.active
+
+# Iterar sobre as planilhas de turmas
+for sheet_turma in lista_piloto.sheetnames:
+    # Selecione a planilha da turma atual
+    sheet_piloto = lista_piloto[sheet_turma]
+
 
 # Obter os nomes da lista
 nomes = [cell.value for row in sheet_piloto.iter_rows(min_row=12, max_row=39, min_col=2, max_col=2) for cell in row]
@@ -38,9 +45,6 @@ dados_sheet['B10'] = nome_professora
 
 # Salvar a nova planilha
 dados_workbook.save(os.path.join(pasta_automacoes, 'Dados.xlsx'))
-
-# Fechar planilha Lista piloto
-lista_piloto.close()
 
 # Verificar a existência do arquivo
 if not os.path.exists(modelo_carterinha_path):
@@ -111,7 +115,18 @@ for i in range(0, len(nomes), 4):
 nome_turma = turma.replace(" ", " ")  # Substituir espaços por underscores, se necessário
 nome_arquivo_carteirinhas = f'Carteirinhas-{nome_turma}.xlsx'
 modelo_carterinha.save(os.path.join(pasta_automacoes, nome_arquivo_carteirinhas))
+# Fechar planilha Modelo Carteirinha
 modelo_carterinha.close()
-
+# Fechar planilha Lista piloto
+lista_piloto.close()
 # Excluir a planilha Dados
 os.remove(os.path.join(pasta_automacoes, 'Dados.xlsx'))
+
+# Exibir pop-up informando que as carteirinhas estão prontas
+root = Tk()
+root.withdraw()  # Esconde a janela principal
+
+messagebox.showinfo('Concluído', 'CARTEIRINHAS PRONTAS')
+
+# Finalizar o aplicativo Tkinter
+root.destroy()
