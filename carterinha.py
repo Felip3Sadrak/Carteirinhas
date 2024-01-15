@@ -50,26 +50,7 @@ if not os.path.exists(modelo_carterinha_path):
 modelo_carterinha = openpyxl.load_workbook(modelo_carterinha_path)
 sheet_carterinha = modelo_carterinha.active
 
-# # Inicializar variáveis de posição
-# linha_inicial_c12 = 12
-# linha_inicial_j12 = 12
-
-# # Iterar sobre os dados copiados em ciclos de 20 nomes
-# for i in range(0, len(nomes), 20):
-#     # Determinar qual coluna utilizar (C8 ou J8)
-#     coluna = 3 if i // 20 % 2 == 0 else 10
-#     linha = linha_inicial_c12 if coluna == 3 else linha_inicial_j12
-
-#     # Atribuir valor à célula correspondente na planilha Modelo Carteirinha
-#     for j, nome in enumerate(nomes[i:i + 20]):
-#         sheet_carterinha.cell(row=linha + j * 14, column=coluna, value=nome)
-
-#     # Verificar se atingiu a célula C278 ou J278
-#     if i + 20 < len(nomes):
-#         # Se houver mais nomes, copiar os próximos 20
-#         dados_sheet['A1'] = 'Nomes'
-#         dados_sheet.append(nomes[i + 20:i + 40])
-# Inicializar variáveis de posição
+# Inicializar variáveis de posição NOME ALUNO
 linha_inicial_c12 = 12
 
 # Iterar sobre os dados copiados
@@ -82,6 +63,49 @@ for i in range(0, len(nomes), 4):
 
     # Atualizar posição para próxima colagem
     linha_inicial_c12 += 28
+
+# Inicializar variáveis de posição TURMA
+linha_inicial_c13 = 13
+
+# Iterar sobre os dados copiados
+for i in range(0, len(nomes), 4):
+    # Atribuir valores às células correspondentes na planilha Modelo Carteirinha
+    sheet_carterinha.cell(row=linha_inicial_c13, column=3, value=turma)
+    sheet_carterinha.cell(row=linha_inicial_c13, column=10, value=turma)
+    sheet_carterinha.cell(row=linha_inicial_c13 + 14, column=3, value=turma)
+    sheet_carterinha.cell(row=linha_inicial_c13 + 14, column=10, value=turma)
+
+    # Atualizar posição para próxima colagem
+    linha_inicial_c13 += 28
+
+
+     # Inicializar variáveis de posição PERIODO
+    linha_inicial_c14 = 14
+
+# Iterar sobre os dados copiados
+for i in range(0, len(nomes), 4):
+    # Atribuir valores às células correspondentes na planilha Modelo Carteirinha
+    sheet_carterinha.cell(row=linha_inicial_c14, column=3, value=periodo)
+    sheet_carterinha.cell(row=linha_inicial_c14, column=10, value=periodo)
+    sheet_carterinha.cell(row=linha_inicial_c14 + 14, column=3, value=periodo)
+    sheet_carterinha.cell(row=linha_inicial_c14 + 14, column=10, value=periodo)
+
+    # Atualizar posição para próxima colagem
+    linha_inicial_c14 += 28
+
+    # Inicializar variáveis de posição NOME PROFESSORA
+    linha_inicial_e14 = 14
+
+# Iterar sobre os dados copiados
+for i in range(0, len(nomes), 4):
+    # Atribuir valores às células correspondentes na planilha Modelo Carteirinha
+    sheet_carterinha.cell(row=linha_inicial_e14, column=4, value='Profº ' + nome_professora)  # Adicionando o prefixo "Profº"
+    sheet_carterinha.cell(row=linha_inicial_e14, column=11, value='Profº ' + nome_professora)  # Adicionando o prefixo "Profº"
+    sheet_carterinha.cell(row=linha_inicial_e14 + 14, column=4, value='Profº ' + nome_professora)  # Adicionando o prefixo "Profº"
+    sheet_carterinha.cell(row=linha_inicial_e14 + 14, column=11, value='Profº ' + nome_professora)  # Adicionando o prefixo "Profº"
+
+    # Atualizar posição para próxima colagem
+    linha_inicial_e14 += 28
      
 # Salvar e fechar planilha Modelo Carteirinha
 nome_turma = turma.replace(" ", " ")  # Substituir espaços por underscores, se necessário
