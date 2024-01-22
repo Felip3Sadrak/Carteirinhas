@@ -1,6 +1,6 @@
 # Automação de Geração de Carterinhas com Python e Excel
 
-Este projeto visa automatizar o processo de geração de carterinhas estudantis a partir de dados fornecidos em planilhas do Excel. A automação é implementada em Python, utilizando a biblioteca `openpyxl` para manipulação de planilhas e `pyautogui` para interação com a interface gráfica.
+Este projeto visa automatizar o processo de geração de carterinhas estudantis a partir de dados fornecidos em planilhas do Excel. A automação é implementada em Python, utilizando a biblioteca `openpyxl` para manipulação de planilhas.
 
 ## Funcionalidades
 
@@ -21,7 +21,7 @@ Este projeto visa automatizar o processo de geração de carterinhas estudantis 
 ## Pré-requisitos
 
 - Python 3.x
-- Bibliotecas Python: `openpyxl`, `pyautogui`
+- Bibliotecas Python: `openpyxl`
 
 ## Como Usar
 
