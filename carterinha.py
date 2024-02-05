@@ -5,14 +5,14 @@ from tkinter import messagebox, Tk
 
 # Caminhos para as planilhas
 pasta_automacoes = 'C:/Users/Benedito/Documents/GitHub/Carteirinhas'
-lista_piloto_path = os.path.join(pasta_automacoes, 'ListaPiloto-2024.xlsx')
+lista_piloto_path = os.path.join(pasta_automacoes, 'Lista Piloto-2024.xlsx')
 modelo_carterinha_path = os.path.join(pasta_automacoes, 'ModeloCarteirinha.xlsx')
 
 # Verificar a existência do arquivo ListaPiloto-2023
 if not os.path.exists(lista_piloto_path):
     root = Tk()
     root.withdraw()
-    messagebox.showerror("Erro", "Certifique-se de que o arquivo ListaPiloto-2023.xlsx existe.")
+    messagebox.showerror("Erro", "Certifique-se de que o arquivo Lista Piloto-2024.xlsx existe.")
     root.destroy()
     exit()
 
@@ -29,7 +29,7 @@ for sheet_turma in lista_piloto.sheetnames:
 
     # Obter os dados da turma, período e nome da professora
     turma = sheet_piloto_turma['F8'].value
-    periodo = sheet_piloto_turma['C8'].value
+    periodo = sheet_piloto_turma['D8'].value
     nome_professora = sheet_piloto_turma['E10'].value
 
     # Criar uma nova planilha chamada DADOS
